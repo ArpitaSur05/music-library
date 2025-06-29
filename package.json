@@ -1,76 +1,35 @@
-import React, { useEffect, useState } from "react";
-
-  type ArtistImage = {
-    "#text": string;
-    size: string;
-  };
-  
-  type Artist = {
-    name: string;
-    mbid?: string;
-    url: string;
-    streamable: string;
-    image: ArtistImage[];
-  };
-  
-  type TopArtistsResponse = {
-    topartists: {
-      artist: Artist[];
-    };
-  };
-  
-  const LandingPage: React.FC = () => {
-    const [topArtists, setTopArtists] = useState<Artist[]>([]);
-  
-    useEffect(() => {
-      const fetchTopArtists = async () => {
-        try {
-          const res = await fetch(
-            "https://ws.audioscrobbler.com/2.0/?method=tag.gettopartists&tag=disco&api_key=e0d697f15e76a5444e2d4949feb6c000&format=json"
-          );
-          const data: TopArtistsResponse = await res.json();
-          setTopArtists(data.topartists.artist.slice(0, 3)); // Limit to top 3
-        } catch (error) {
-          console.error("Failed to fetch top artists:", error);
-        }
-      };
-  
-      fetchTopArtists();
-    }, []);
-  
-    return (
-      <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-8">
-        <h1 className="text-4xl font-bold mb-8 text-center">🎧 Disco Top Artists</h1>
-  
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {topArtists.map((artist) => (
-            <div
-              key={artist.mbid || artist.name}
-              className="bg-[#2e1f1f] p-4 rounded-lg flex flex-col items-center text-white"
-            >
-              <img
-                src={
-                  artist.image.find((img: ArtistImage) => img.size === "large")?.["#text"] ||
-                  "https://via.placeholder.com/150"
-                }
-                alt={artist.name}
-                className="w-24 h-24 rounded-full object-cover mb-2"
-              />
-              <p className="text-lg font-medium">{artist.name}</p>
-              <a
-                href={artist.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-blue-400 mt-1 hover:underline"
-              >
-                Visit Profile
-              </a>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-  
-  export default LandingPage;
-  
+{
+  "name": "music-library",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.11",
+    "axios": "^1.10.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
+    "react-router": "^7.6.2",
+    "sonner": "^2.0.5",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
+    "eslint": "^9.29.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.2.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.34.1",
+    "vite": "^7.0.0"
+  }
+}
